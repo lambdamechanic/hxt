@@ -34,6 +34,8 @@ module Text.XML.HXT.XPath.XPathEval
     , getXPath'
     , getXPathSubTrees'
     , getXPathNodeSet''
+
+    , getXPathValues'
     )
 where
 
@@ -541,7 +543,7 @@ evalPredL env pr ns                     = foldl (flip $ evalPred env) ns pr
 
 evalPred                                :: Env -> Expr -> NodeListRes -> NodeListRes
 evalPred _   _  res@(Left _)            = res
-evalPred env ex arg@(Right ns)          = mapNL' (evalPred' env ex (length ns)) arg 
+evalPred env ex arg@(Right ns)          = mapNL' (evalPred' env ex (length ns)) arg
 
 evalPred'                               :: Env -> Expr -> Int -> Int -> NavXmlTree -> NodeListRes
 evalPred' env ex len pos x              = case testPredicate env (pos, len, x) ex (XPVNode . singletonNodeSet $ x) of
